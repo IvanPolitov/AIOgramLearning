@@ -1,3 +1,4 @@
 .git/
 venv/
 secret.txt
+echo-bot.py
