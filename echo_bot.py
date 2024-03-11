@@ -1,7 +1,7 @@
 import re
 # import requests
 # import time
-from aiogram import Bot, Dispatcher, F 
+from aiogram import Bot, Dispatcher, F
 from aiogram.filters import Command
 from aiogram.types import Message, ContentType
 
@@ -15,7 +15,7 @@ bot = Bot(token=TOKEN)
 dp = Dispatcher()
 
 # Присылает текст, старт
-@dp.message(Command(commands=["start"])) 
+@dp.message(Command(commands=["start"]))
 async def process_start_command(message: Message):
     await message.answer('Привет!\nМеня зовут Эхо-бот!\nНапиши мне что-нибудь')
 
