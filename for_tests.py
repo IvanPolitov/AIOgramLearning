@@ -2,6 +2,8 @@ import re
 from aiogram import Bot, Dispatcher, F
 from aiogram.filters import Command, CommandStart, BaseFilter
 from aiogram.types import Message, PhotoSize
+import logging
+
 
 TOKEN = ""
 with open('secret.txt', 'r') as q:
@@ -11,6 +13,8 @@ with open('secret.txt', 'r') as q:
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
 admin_ids = [1393291388]
+logger = logging.getLogger('QQ')
+
 
 
 @dp.message(F.photo[-1].as_('photo_max'))
@@ -37,4 +41,7 @@ async def qq(message: Message):
     await message.answer('ты пидор')
 
 if __name__ == '__main__':
+    print(logger)
+    logger.warning('Предупреждение!')
+    logger.error('Отладочная информация')
     dp.run_polling(bot)
