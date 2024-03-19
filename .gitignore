@@ -2,3 +2,4 @@
 venv/
 secret.txt
 modular_echo_bot/.env
+rps_bot/.env
