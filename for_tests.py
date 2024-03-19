@@ -1,47 +1,43 @@
-import re
-from aiogram import Bot, Dispatcher, F
-from aiogram.filters import Command, CommandStart, BaseFilter
-from aiogram.types import Message, PhotoSize
-import logging
+# Не удаляйте эти объекты - просто используйте
+import os, sys
+book: dict[int, str] = {}
+PAGE_SIZE = 1050
 
 
-TOKEN = ""
-with open('secret.txt', 'r') as q:
-    text = q.read()
-    TOKEN = re.match(r'token:([:\w-]*$)', text).group(1)
+def _get_part_text(text: str, start: int, size: int) -> tuple[str, int]:
+    punctuation = (',.!:;?')
 
-bot = Bot(token=TOKEN)
-dp = Dispatcher()
-admin_ids = [1393291388]
-logger = logging.getLogger('QQ')
+    if start + size >= len(text):
+        size = len(text) - start
 
+    if start + size != len(text):
+        while text[start + size] in punctuation:
+            size -= 1
+    out_text = text[start:start + size]
 
+    for c in range(len(out_text)-1, 0, -1):
+        if out_text[c] in punctuation:
+            break
+    out_text = out_text[:c+1]
+    out_size = len(out_text)
 
-@dp.message(F.photo[-1].as_('photo_max'))
-async def pereslat_photo(message: Message, photo_max: PhotoSize):
-    await message.reply_photo(photo_max.file_id)
-
-class IsAdmin(BaseFilter):
-    def __init__(self, admin_ids: list[int]) -> None:
-        self.admin_ids = admin_ids
-
-    async def __call__(self, message: Message) -> bool:
-        return message.from_user.id in self.admin_ids
-
-@dp.message(IsAdmin(admin_ids))
-async def q(message: Message):
-    await message.answer("Вы админ")
+    return (out_text, out_size)
 
 
+# Дополните эту функцию, согласно условию задачи
+def prepare_book(path: str) -> None:
+    txt = ''
+    with open('book.txt', 'r', encoding='utf-8') as f:
+        txt = f.read()
+    print(txt)
+    start = 0
+    q = 1
+    while txt:
+        book[q], w = _get_part_text(txt, start, PAGE_SIZE)
+        book[q] = book[q].strip()
+        txt = txt[w:]
+        q += 1
 
 
-
-@dp.message()
-async def qq(message: Message):
-    await message.answer('ты пидор')
-
-if __name__ == '__main__':
-    print(logger)
-    logger.warning('Предупреждение!')
-    logger.error('Отладочная информация')
-    dp.run_polling(bot)
+prepare_book(os.path.join(sys.path[0], os.path.normpath('book.txt')))
+print(book)
