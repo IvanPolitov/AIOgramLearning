@@ -29,7 +29,6 @@ def prepare_book(path: str) -> None:
     txt = ''
     with open('book.txt', 'r', encoding='utf-8') as f:
         txt = f.read()
-    print(txt)
     start = 0
     q = 1
     while txt:

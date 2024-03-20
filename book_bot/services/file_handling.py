@@ -29,7 +29,7 @@ def _get_part_text(text: str, start: int, size: int) -> tuple[str, int]:
 
 def prepare_book(path: str) -> None:
     txt = ''
-    with open('book.txt', 'r', encoding='utf-8') as f:
+    with open(path, 'r', encoding='utf-8') as f:
         txt = f.read()
     start = 0
     q = 1
